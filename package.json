@@ -1,5 +1,6 @@
 {
   "name": "progressive-img",
+  "version": "1.0.0",
   "description": "Custom element (written in Polymer) to load img progressively and lazily. It first shows tiny blurred placeholder and loads full-sized image afterwards. It can also load image after click or entering viewport",
   "keywords": [
     "progressive",

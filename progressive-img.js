@@ -40,6 +40,7 @@ class ProgressiveImg extends PolymerElement {
         [loaded] .placeholder {
           transform: scale(1);
           position: absolute;
+          display: none;
         }
           
         img.final {

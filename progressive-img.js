@@ -17,17 +17,17 @@ class ProgressiveImg extends PolymerElement {
           --transition-duration: .2s;
           --transition-timing-function: ease-in;
         }
-      
+
         .container {
           overflow: hidden;
           position: relative;
         }
-                         
+
         img {
           display: block;
           width: 100%;
         }
-          
+
         img.placeholder {
           filter: var(--placeholder-filter);
           transform: scale(var(--placeholder-scale));
@@ -36,13 +36,13 @@ class ProgressiveImg extends PolymerElement {
           transition-timing-function: linear;
           transition-duration: calc(var(--transition-duration) * 2);
         }
-          
+
         [loaded] .placeholder {
           transform: scale(1);
           position: absolute;
           display: none;
         }
-          
+
         img.final {
           position: absolute;
           left: 0;
@@ -56,14 +56,14 @@ class ProgressiveImg extends PolymerElement {
           transition-duration: var(--transition-duration);
           transition-timing-function: var(--transition-timing-function);
         }
-                        
+
         [loaded] .final {
           opacity: 1;
           position: static;
         }
-        
+
       </style>
-  
+
       <div class="container" on-click="loadLarge" loaded$="[[_loaded]]">
           <img class="placeholder" src$="[[placeholder]]" alt$="[[alt]]">
           <img class="final" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">

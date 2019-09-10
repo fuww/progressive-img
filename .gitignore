@@ -96,3 +96,5 @@ Temporary Items
 /node_modules
 
 # End of https://www.gitignore.io/api/web,macos,polymer,intellij
+
+*.tgz

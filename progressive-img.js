@@ -18,6 +18,7 @@ class ProgressiveImg extends PolymerElement {
           --transition-timing-function: ease-in;
           --img-object-fit: contain;
           --img-height: auto;
+          --img-width: 100%;
         }
 
         .container {
@@ -27,7 +28,7 @@ class ProgressiveImg extends PolymerElement {
 
         img {
           display: block;
-          width: 100%;
+          width: var(--img-width);
           object-fit: var(--img-object-fit);
           height: var(--img-height);
         }
@@ -53,7 +54,6 @@ class ProgressiveImg extends PolymerElement {
           right: 0;
           top: 0;
           bottom: 0;
-          width: 100%;
           opacity: 0;
           will-change: opacity;
           transition-property: opacity;

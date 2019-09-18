@@ -19,6 +19,7 @@ class ProgressiveImg extends PolymerElement {
           --img-object-fit: contain;
           --img-height: auto;
           --img-width: 100%;
+          --img-max-height: none;
         }
 
         .container {
@@ -31,6 +32,7 @@ class ProgressiveImg extends PolymerElement {
           width: var(--img-width);
           object-fit: var(--img-object-fit);
           height: var(--img-height);
+          max-height: var(--img-max-height);
         }
 
         img.placeholder {

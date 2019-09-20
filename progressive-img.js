@@ -1,6 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element'
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status'
-import '@polymer/polymer/lib/elements/dom-repeat.js'
+
 
 class ProgressiveImg extends PolymerElement {
   static get is() {
@@ -71,18 +71,8 @@ class ProgressiveImg extends PolymerElement {
       </style>
 
       <div class="container" on-click="loadLarge" loaded$="[[_loaded]]">
-          <picture>
-              <template is="dom-repeat" items="[[placeholder-sources]]">
-                  <source srcset="[[item.srcset]]" type="[[item.type]]">
-              </template>
-              <img class="placeholder" src$="[[placeholder]]" alt$="[[alt]]">
-          </picture>
-          <picture>
-              <template is="dom-repeat" items="[[_finalSources]]">
-                  <source srcset="[[item.srcset]]" type="[[item.type]]">
-              </template>
-              <img class="final" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
-          </picture>
+          <img class="placeholder" src$="[[placeholder]]" alt$="[[alt]]">
+          <img class="final" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
       </div>
     `
   }
@@ -101,7 +91,6 @@ class ProgressiveImg extends PolymerElement {
   loadLarge() {
     this._finalSrc = this.src
     this._finalSrcset = this.srcset
-    this._finalSources = this.sources
   }
 
   observeVisibility() {
@@ -127,8 +116,6 @@ class ProgressiveImg extends PolymerElement {
       src: String,
       srcset: String,
       sizes: String,
-      sources: Array,
-      'placeholder-sources': Array,
 
       alt: String,
 
@@ -141,7 +128,6 @@ class ProgressiveImg extends PolymerElement {
 
       _finalSrc: String,
       _finalSrcset: String,
-      _finalSources: Array,
       _loaded: {
         type: Boolean,
         value: false

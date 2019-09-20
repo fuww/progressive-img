@@ -52,20 +52,16 @@ class ProgressiveImg extends PolymerElement {
 
         img.final {
           position: absolute;
+          display: none;
           left: 0;
           right: 0;
           top: 0;
           bottom: 0;
-          opacity: 0;
-          will-change: opacity;
-          transition-property: opacity;
-          transition-duration: var(--transition-duration);
-          transition-timing-function: var(--transition-timing-function);
         }
 
         [loaded] .final {
-          opacity: 1;
           position: static;
+          display: block;
         }
 
       </style>

@@ -13,9 +13,6 @@ class ProgressiveImg extends PolymerElement {
         :host {
           display: block;
           --placeholder-filter: blur(10px) saturate(1.2);
-          --placeholder-scale: 1.1;
-          --transition-duration: .2s;
-          --transition-timing-function: ease-in;
           --img-object-fit: contain;
           --img-height: auto;
           --img-width: 100%;
@@ -37,15 +34,9 @@ class ProgressiveImg extends PolymerElement {
 
         img.placeholder {
           filter: var(--placeholder-filter);
-          transform: scale(var(--placeholder-scale));
-          will-change: transform, filter;
-          transition-property: transform, filter;
-          transition-timing-function: linear;
-          transition-duration: calc(var(--transition-duration) * 2);
         }
 
         [loaded] .placeholder {
-          transform: scale(1);
           position: absolute;
           display: none;
         }

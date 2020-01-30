@@ -58,8 +58,8 @@ class ProgressiveImg extends PolymerElement {
       </style>
 
       <div class="container" on-click="loadLarge" loaded$="[[_loaded]]">
-          <img class="placeholder" src$="[[placeholder]]" alt$="[[alt]]">
-          <img class="final" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
+          <img class="placeholder" importance="high" src$="[[placeholder]]" alt$="[[alt]]">
+          <img class="final" importance="low" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
       </div>
     `
   }

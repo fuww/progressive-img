@@ -98,3 +98,5 @@ Temporary Items
 # End of https://www.gitignore.io/api/web,macos,polymer,intellij
 
 *.tgz
+
+dist/

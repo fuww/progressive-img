@@ -58,8 +58,8 @@ class ProgressiveImg extends PolymerElement {
       </style>
 
       <div class="container" on-click="loadLarge" loaded$="[[_loaded]]">
-          <img class="placeholder" importance="high" src$="[[placeholder]]" alt$="[[alt]]">
-          <img class="final" importance="low" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
+          <img class="placeholder" importance$="[[placeholderImportance]]" src$="[[placeholder]]" alt$="[[alt]]">
+          <img class="final" importance$="[[finalImportance]]" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
       </div>
     `
   }
@@ -107,6 +107,16 @@ class ProgressiveImg extends PolymerElement {
       alt: String,
 
       loadStrategy: String,
+
+      placeholderImportance: {
+        type: String,
+        value: 'high'
+      },
+
+      finalImportance: {
+        type: String,
+        value: 'low'
+      },
 
       intersectionMargin: {
         type: String,

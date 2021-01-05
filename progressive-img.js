@@ -22,6 +22,7 @@ class ProgressiveImg extends PolymerElement {
         .container {
           overflow: hidden;
           position: relative;
+          height: var(--img-height);
         }
 
         img {

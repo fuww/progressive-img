@@ -1,6 +1,4 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element'
-import { afterNextRender } from '@polymer/polymer/lib/utils/render-status'
-
 
 class ProgressiveImg extends PolymerElement {
   static get is() {
@@ -67,15 +65,26 @@ class ProgressiveImg extends PolymerElement {
     `
   }
 
-  constructor() {
-    super()
-    afterNextRender(this, () => {
-      if (this.loadStrategy === 'instant') {
-        this.loadLarge()
-      } else if (this.loadStrategy === 'on-visible') {
-        this.observeVisibility()
-      }
-    })
+  connectedCallback() {
+    super.connectedCallback()
+
+    this.loadImages()
+  }
+
+  loadImages() {
+    if (this.loadStrategy === 'instant') {
+      this.loadLarge()
+    } else if (this.loadStrategy === 'on-visible') {
+      this.observeVisibility()
+    }
+  }
+
+  reset() {
+    this._finalSrc = null
+    this._finalSrcset = null
+    this._loaded = false
+
+    this.loadImages()
   }
 
   loadLarge() {
@@ -84,6 +93,10 @@ class ProgressiveImg extends PolymerElement {
   }
 
   observeVisibility() {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
+
     this.observer = new IntersectionObserver((nodes) => {
       if (nodes[0].isIntersecting) {
         this.loadLarge()
@@ -101,29 +114,50 @@ class ProgressiveImg extends PolymerElement {
 
   static get properties() {
     return {
-      placeholder: String,
+      placeholder: {
+        type: String,
+        observer() { this.reset() }
+      },
 
-      src: String,
-      srcset: String,
-      sizes: String,
+      src: {
+        type: String,
+        observer() { this.reset() }
+      },
+      srcset: {
+        type: String,
+        observer() { this.reset() }
+      },
+      sizes: {
+        type: String,
+        observer() { this.reset() }
+      },
 
-      alt: String,
+      alt: {
+        type: String,
+        observer() { this.reset() }
+      },
 
-      loadStrategy: String,
+      loadStrategy: {
+        type: String,
+        observer() { this.reset() }
+      },
 
       placeholderImportance: {
         type: String,
-        value: 'high'
+        value: 'high',
+        observer() { this.reset() }
       },
 
       finalImportance: {
         type: String,
-        value: 'low'
+        value: 'low',
+        observer() { this.reset() }
       },
 
       intersectionMargin: {
         type: String,
-        value: '200px'
+        value: '200px',
+        observer() { this.reset() }
       },
 
       _finalSrc: String,

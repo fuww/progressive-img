@@ -36,8 +36,8 @@
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "build-legacy": "webpack",
-    "build-modern": "MODERN=true webpack",
+    "build-legacy": "webpack --mode=production",
+    "build-modern": "MODERN=true webpack --mode=production",
     "build": "npm run build-modern && npm run build-legacy"
   }
 }

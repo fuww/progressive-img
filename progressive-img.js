@@ -68,6 +68,11 @@ class ProgressiveImg extends PolymerElement {
   connectedCallback() {
     super.connectedCallback()
 
+    this.shadowRoot.querySelector('.placeholder')
+      .addEventListener('error', this.onPlaceholderError.bind(this))
+    this.shadowRoot.querySelector('.final')
+      .addEventListener('error', this.onError.bind(this))
+
     this.loadImages()
   }
 
@@ -110,6 +115,23 @@ class ProgressiveImg extends PolymerElement {
 
   finalLoaded() {
     this._loaded = true
+  }
+
+  onPlaceholderError() {
+    this.dispatchEvent(new CustomEvent('placeholderError', {
+      detail: {
+        src: this.placeholder
+      }
+    }))
+  }
+
+  onError() {
+    this.dispatchEvent(new CustomEvent('error', {
+      detail: {
+        src: this.src,
+        srcset: this.srcset
+      }
+    }))
   }
 
   static get properties() {

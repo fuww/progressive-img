@@ -59,8 +59,8 @@ class ProgressiveImg extends PolymerElement {
       </style>
 
       <div class="container" on-click="loadLarge" loaded$="[[_loaded]]">
-          <img class="placeholder" importance$="[[placeholderImportance]]" src$="[[placeholder]]" alt$="[[alt]]">
-          <img class="final" importance$="[[finalImportance]]" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
+          <img class="placeholder" fetchpriority$="[[placeholderFetchpriority]]" src$="[[placeholder]]" alt$="[[alt]]">
+          <img class="final" fetchpriority$="[[finalFetchpriority]]" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
       </div>
     `
   }
@@ -164,13 +164,13 @@ class ProgressiveImg extends PolymerElement {
         observer() { this.reset() }
       },
 
-      placeholderImportance: {
+      placeholderFetchpriority: {
         type: String,
         value: 'high',
         observer() { this.reset() }
       },
 
-      finalImportance: {
+      finalFetchpriority: {
         type: String,
         value: 'low',
         observer() { this.reset() }

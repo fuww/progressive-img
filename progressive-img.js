@@ -59,7 +59,7 @@ class ProgressiveImg extends PolymerElement {
       </style>
 
       <div class="container" on-click="loadLarge" loaded$="[[_loaded]]">
-          <img class="placeholder" fetchpriority$="[[placeholderFetchpriority]]" src$="[[placeholder]]" alt$="[[alt]]">
+          <img class="placeholder" fetchpriority$="[[placeholderFetchpriority]]" src$="[[_placeholderSrc]]" alt$="[[alt]]">
           <img class="final" fetchpriority$="[[finalFetchpriority]]" src$="[[_finalSrc]]" srcset$="[[_finalSrcset]]" sizes$="[[sizes]]" alt$="[[alt]]" on-load="finalLoaded">
       </div>
     `
@@ -77,6 +77,12 @@ class ProgressiveImg extends PolymerElement {
   }
 
   loadImages() {
+    if (this.placeholderLoadStrategy === 'instant') {
+      this.loadPlaceholder()
+    } else if (this.placeholderLoadStrategy === 'on-visible') {
+      this.observePlaceholderVisibility()
+    }
+
     if (this.loadStrategy === 'instant') {
       this.loadLarge()
     } else if (this.loadStrategy === 'on-visible') {
@@ -85,11 +91,16 @@ class ProgressiveImg extends PolymerElement {
   }
 
   reset() {
+    this._placeholderSrc = null
     this._finalSrc = null
     this._finalSrcset = null
     this._loaded = false
 
     this.loadImages()
+  }
+
+  loadPlaceholder() {
+    this._placeholderSrc = this.placeholder
   }
 
   loadLarge() {
@@ -111,6 +122,22 @@ class ProgressiveImg extends PolymerElement {
       rootMargin: this.intersectionMargin
     })
     this.observer.observe(this.shadowRoot.querySelector('.placeholder'))
+  }
+
+  observePlaceholderVisibility() {
+    if (this.placeholderObserver) {
+      this.placeholderObserver.disconnect()
+    }
+
+    this.placeholderObserver = new IntersectionObserver((nodes) => {
+      if (nodes[0].isIntersecting) {
+        this.loadPlaceholder()
+        this.placeholderObserver.disconnect()
+      }
+    }, {
+      rootMargin: this.placeholderIntersectionMargin
+    })
+    this.placeholderObserver.observe(this.shadowRoot.querySelector('.placeholder'))
   }
 
   finalLoaded() {
@@ -161,6 +188,13 @@ class ProgressiveImg extends PolymerElement {
 
       loadStrategy: {
         type: String,
+        value: 'on-visible',
+        observer() { this.reset() }
+      },
+
+      placeholderLoadStrategy: {
+        type: String,
+        value: 'on-visible',
         observer() { this.reset() }
       },
 
@@ -182,6 +216,13 @@ class ProgressiveImg extends PolymerElement {
         observer() { this.reset() }
       },
 
+      placeholderIntersectionMargin: {
+        type: String,
+        value: '400px',
+        observer() { this.reset() }
+      },
+
+      _placeholderSrc: String,
       _finalSrc: String,
       _finalSrcset: String,
       _loaded: {

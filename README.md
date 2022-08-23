@@ -1,9 +1,11 @@
 # Custom element &lt;progressive-img&gt;
 
-Custom element (written in Polymer) to load img progressively
+Custom element to load img progressively
 and lazily. It first shows tiny blurred placeholder and
 loads full-sized image afterwards. It can also defer loading
 until placeholder is clicked or enters viewport.
+
+Fork of https://github.com/markcheeky/progressive-img
 
 ## [Demo](demo/index.html)
 
@@ -39,7 +41,7 @@ Load strategy controls when image starts loading.
 There are 3 options:
 
 | Load strategy   | Behavior |
-| --------------- | -------- | 
+| --------------- | -------- |
 | instant         | image will start loading immediately   |
 | on-visible      | image will load if is visible or when enters viewport |
 
@@ -99,7 +101,7 @@ because you can easily create fallback:
 progressive-img uses 4 CSS custom properties to customize the appearance.
 
 | CSS property    | description |
-| --------------- | ----------- | 
+| --------------- | ----------- |
 | --placeholder-filter  | Filter applied to placeholder image. Defaults to `blur(10px) saturate(1.2)` |
 | --placeholder-scale   | Transform scale value. Defaults to `1.1` to prevent blurred placeholder from having white borders |
 | --transition-duration | Duration of swapping placeholder and final image. Defaults to `.2s`  |

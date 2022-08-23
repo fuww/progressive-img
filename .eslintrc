@@ -1,16 +1,5 @@
 {
-  "extends": "airbnb",
-  "rules": {
-    "semi": [
-      1,
-      "never"
-    ],
-    "comma-dangle": [
-      "error",
-      "never"
-    ],
-    "no-underscore-dangle": 0
-  },
+  "extends": "airbnb-base",
   "env": {
     "browser": true
   }

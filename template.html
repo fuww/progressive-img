@@ -1,0 +1,55 @@
+<style>
+  :host {
+    display: block;
+    --placeholder-filter: blur(10px) saturate(1.2);
+    --img-object-fit: contain;
+    --img-object-position: 50% 50%;
+    --img-height: auto;
+    --img-width: 100%;
+    --img-max-height: none;
+  }
+
+  .container {
+    overflow: hidden;
+    position: relative;
+    height: var(--img-height);
+  }
+
+  img {
+    display: block;
+    width: var(--img-width);
+    object-fit: var(--img-object-fit);
+    object-position: var(--img-object-position);
+    height: var(--img-height);
+    max-height: var(--img-max-height);
+  }
+
+  img.placeholder {
+    filter: var(--placeholder-filter);
+  }
+
+  [loaded] .placeholder {
+    position: absolute;
+    display: none;
+  }
+
+  img.final {
+    position: absolute;
+    display: none;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  [loaded] .final {
+    position: static;
+    display: block;
+  }
+
+</style>
+
+<div class="container">
+    <img class="placeholder">
+    <img class="final">
+</div>

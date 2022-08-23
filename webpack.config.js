@@ -1,9 +1,9 @@
-const TerserPlugin = require('terser-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'production',
   entry: {
-    [`progressive-img${process.env.MODERN ? '.module' : ''}`]: './progressive-img.js'
+    'progressive-img': './progressive-img.js',
   },
   module: {
     rules: [
@@ -13,27 +13,31 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [['@babel/preset-env',
-              process.env.MODERN ?
-                {
-                  targets: { esmodules: true }
-                } :
-                { targets: '> 1%, ie 11' }
-            ]]
-          }
-        }
-      }
-    ]
+              {
+                targets: { esmodules: true },
+                useBuiltIns: 'usage',
+                corejs: 3,
+              },
+            ]],
+          },
+        },
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
+    ],
   },
   output: {
     publicPath: 'dist',
-    filename: '[name].js'
+    filename: '[name].js',
   },
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: true
-      })
-    ]
-  }
-}
+        extractComments: true,
+      }),
+    ],
+  },
+};

@@ -1,7 +1,7 @@
 {
-  "name": "progressive-img",
+  "name": "@fuww/progressive-img",
   "version": "1.0.0",
-  "description": "Custom element (written in Polymer) to load img progressively and lazily. It first shows tiny blurred placeholder and loads full-sized image afterwards. It can also load image after click or entering viewport",
+  "description": "Custom element to load img progressively and lazily. It first shows tiny blurred placeholder and loads full-sized image afterwards. It can also load image after click or entering viewport",
   "keywords": [
     "progressive",
     "lazy",
@@ -9,36 +9,29 @@
     "img",
     "web component",
     "custom element",
-    "polymer",
     "element",
     "html"
   ],
-  "main": "progressive-img.js",
-  "repository": "https://github.com/cuddlecheek/progressive-img.git",
-  "author": "Marek Kadlčík",
+  "main": "dist/progressive-img.js",
+  "repository": "https://github.com/fuww/progressive-img.git",
+  "author": "FashionUnited",
   "license": "BSD-3-Clause",
-  "dependencies": {
-    "@polymer/polymer": "^3.0.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.8.2",
-    "terser-webpack-plugin": "^1.4.3"
-  },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
-    "@webcomponents/webcomponentsjs": "^2.0.0",
-    "babel-loader": "^8.0.6",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "wct-browser-legacy": "^1.0.0",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "@babel/preset-env": "7.18.10",
+    "babel-loader": "8.2.5",
+    "core-js": "3.24.1",
+    "eslint": "8.22.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0",
+    "html-loader": "4.1.0",
+    "http-server": "14.1.1",
+    "terser-webpack-plugin": "5.3.5",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0"
   },
   "scripts": {
-    "build-legacy": "webpack --mode=production",
-    "build-modern": "MODERN=true webpack --mode=production",
-    "build": "npm run build-modern && npm run build-legacy"
+    "build": "webpack --mode=production",
+    "start": "npm run build && http-server -a localhost",
+    "lint": "eslint --cache ."
   }
 }

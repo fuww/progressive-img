@@ -63,8 +63,8 @@ if that's all you need.
 ```
 
 Intersection margin only takes effect if `load-strategy="on-visible"`
-is set. Default value is **200px**, so image will trigger loading
-when enters 200px wide area around viewport.
+is set. Default value is **400px**, so image will trigger loading
+when enters 400px wide area around viewport.
 
 ![intersection margin](readme/load-threshold.svg)
 

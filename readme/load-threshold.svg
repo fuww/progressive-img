@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="67.921 5.398 358.655 252.584" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
-  <defs>	
+  <defs>
     <pattern id="pattern-0" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse" viewBox="0 0 100 100">
       <rect x="0" y="0" width="50" height="100" style="fill: rgba(0, 42, 255, 0.2);"/>
     </pattern>
@@ -19,8 +19,8 @@
     <path d="M 36.424 262.594 L 39.947 270.625 L 32.9 270.625 L 36.424 262.594 Z"/>
     <path d="M 36.423 294.594 L 39.946 302.625 L 32.899 302.625 L 36.423 294.594 Z" transform="matrix(-1, 0, 0, -1, 72.844992, 597.219005)"/>
   </g>
-  <text style="fill: rgb(51, 51, 51); font-size: 13px; white-space: pre;" x="332.027" y="172.21">200px</text>
-  <text style="fill: rgb(51, 51, 51); font-size: 13px; white-space: pre;" x="127.406" y="115.71">200px</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 13px; white-space: pre;" x="332.027" y="172.21">400px</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 13px; white-space: pre;" x="127.406" y="115.71">400px</text>
   <rect x="166.103" y="-153.565" width="163.546" height="297.129" style="stroke-dasharray: 5px; stroke: rgb(255, 63, 63); fill-rule: evenodd; fill: rgb(255, 255, 255);"/>
   <text style="fill: rgb(16, 16, 16); font-size: 24px; white-space: pre;" x="203.331" y="62.422">viewport</text>
   <text style="fill: rgb(255, 255, 255); font-size: 24px; white-space: pre;" x="217.116" y="216.611">image</text>

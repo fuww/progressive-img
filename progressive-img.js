@@ -83,7 +83,7 @@ class ProgressiveImg extends HTMLElement {
     this.observeElementVisibility(
       'observer',
       this.placeholder,
-      this.getAttribute('intersection-margin') || '200px',
+      this.getAttribute('intersection-margin') || '400px',
       this.loadLarge.bind(this),
     );
   }
@@ -92,7 +92,7 @@ class ProgressiveImg extends HTMLElement {
     this.observeElementVisibility(
       'placeholderObserver',
       this.placeholder,
-      this.getAttribute('placeholder-intersection-margin') || '400px',
+      this.getAttribute('placeholder-intersection-margin') || '800px',
       this.loadPlaceholder.bind(this),
     );
   }

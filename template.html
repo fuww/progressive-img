@@ -24,8 +24,23 @@
     max-height: var(--img-max-height);
   }
 
+  @keyframes breathe {
+    0% {
+      filter: blur(10px) saturate(1.2);
+    }
+
+    50% {
+      filter: blur(20px) saturate(2.4);
+    }
+
+    100% {
+      filter: blur(10px) saturate(1.2);
+    }
+  }
+
   img.placeholder {
     filter: var(--placeholder-filter);
+    animation: breathe 2s infinite;
   }
 
   [loaded] .placeholder {

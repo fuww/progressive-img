@@ -38,6 +38,7 @@ class ProgressiveImg extends HTMLElement {
   }
 
   onPlaceholderError() {
+    this.placeholder.setAttribute('failed', true);
     this.dispatchEvent(new CustomEvent('placeholderError', {
       detail: {
         src: this.getAttribute('placeholder'),
@@ -123,6 +124,7 @@ class ProgressiveImg extends HTMLElement {
     this.placeholder.setAttribute('fetchpriority', this.getAttribute('placeholder-fetchpriority') || 'high');
     this.final.setAttribute('fetchpriority', this.getAttribute('final-fetchpriority') || 'low');
 
+    this.placeholder.removeAttribute('failed');
     this.container.removeAttribute('loaded');
 
     this.loadImages();

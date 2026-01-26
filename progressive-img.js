@@ -30,11 +30,15 @@ class ProgressiveImg extends HTMLElement {
       'final-fetchpriority',
       'intersection-margin',
       'placeholder-intersection-margin',
+      'original',
     ];
   }
 
   finalLoaded() {
     this.container.setAttribute('loaded', true);
+    if (this.hasAttribute('original')) {
+      this.setAttribute('lightbox-ready', '');
+    }
   }
 
   onPlaceholderError() {
@@ -126,6 +130,7 @@ class ProgressiveImg extends HTMLElement {
 
     this.placeholder.removeAttribute('failed');
     this.container.removeAttribute('loaded');
+    this.removeAttribute('lightbox-ready');
 
     this.loadImages();
   }
@@ -138,6 +143,21 @@ class ProgressiveImg extends HTMLElement {
 
     this.container = this.shadowRoot.querySelector('.container');
     this.container.addEventListener('click', this.loadLarge.bind(this));
+    this.container.addEventListener('click', () => {
+      if (this.hasAttribute('original') && this.container.hasAttribute('loaded')) {
+        this.dispatchEvent(new CustomEvent('lightbox-request', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            placeholder: this.getAttribute('src'),
+            srcset: this.getAttribute('srcset'),
+            sizes: this.getAttribute('sizes'),
+            src: this.getAttribute('original'),
+            alt: this.getAttribute('alt'),
+          },
+        }));
+      }
+    });
 
     this.placeholder = this.shadowRoot.querySelector('.placeholder');
     this.placeholder.addEventListener('error', this.onPlaceholderError.bind(this));

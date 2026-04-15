@@ -148,11 +148,21 @@ class ProgressiveImg extends HTMLElement {
   }
 
   connectedCallback() {
+    // eslint-disable-next-line no-underscore-dangle
+    this._initialized = true;
     this.reset();
   }
 
-  attributeChangedCallback() {
-    this.reset();
+  disconnectedCallback() {
+    // eslint-disable-next-line no-underscore-dangle
+    this._initialized = false;
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    // eslint-disable-next-line no-underscore-dangle
+    if (oldValue !== newValue && this._initialized) {
+      this.reset();
+    }
   }
 }
 

@@ -13,6 +13,18 @@ const setOrRemoveAttribute = (element, attribute, value) => {
 };
 
 class ProgressiveImg extends HTMLElement {
+  #container;
+
+  #placeholderImage;
+
+  #finalImage;
+
+  #observer;
+
+  #placeholderObserver;
+
+  #initialized = false;
+
   static get is() {
     return 'progressive-img';
   }
@@ -34,11 +46,11 @@ class ProgressiveImg extends HTMLElement {
   }
 
   finalLoaded() {
-    this.container.setAttribute('loaded', true);
+    this.#container.setAttribute('loaded', true);
   }
 
   onPlaceholderError() {
-    this.placeholder.setAttribute('failed', true);
+    this.#placeholderImage.setAttribute('failed', true);
     this.dispatchEvent(new CustomEvent('placeholderError', {
       detail: {
         src: this.getAttribute('placeholder'),
@@ -56,43 +68,44 @@ class ProgressiveImg extends HTMLElement {
   }
 
   loadLarge() {
-    setOrRemoveAttribute(this.final, 'src', this.getAttribute('src'));
-    setOrRemoveAttribute(this.final, 'srcset', this.getAttribute('srcset'));
+    setOrRemoveAttribute(this.#finalImage, 'src', this.getAttribute('src'));
+    setOrRemoveAttribute(this.#finalImage, 'srcset', this.getAttribute('srcset'));
   }
 
   loadPlaceholder() {
-    setOrRemoveAttribute(this.placeholder, 'src', this.getAttribute('placeholder'));
+    setOrRemoveAttribute(this.#placeholderImage, 'src', this.getAttribute('placeholder'));
   }
 
-  observeElementVisibility(name, element, rootMargin, onVisible) {
-    if (this[name]) {
-      this[name].disconnect();
+  static observeElementVisibility(previousObserver, element, rootMargin, onVisible) {
+    if (previousObserver) {
+      previousObserver.disconnect();
     }
 
-    this[name] = new IntersectionObserver((nodes) => {
+    const observer = new IntersectionObserver((nodes) => {
       if (nodes[0].isIntersecting) {
         onVisible();
-        this[name].disconnect();
+        observer.disconnect();
       }
     }, {
       rootMargin,
     });
-    this[name].observe(element);
+    observer.observe(element);
+    return observer;
   }
 
   observeVisibility() {
-    this.observeElementVisibility(
-      'observer',
-      this.placeholder,
+    this.#observer = ProgressiveImg.observeElementVisibility(
+      this.#observer,
+      this.#placeholderImage,
       this.getAttribute('intersection-margin') || '400px',
       this.loadLarge.bind(this),
     );
   }
 
   observePlaceholderVisibility() {
-    this.observeElementVisibility(
-      'placeholderObserver',
-      this.placeholder,
+    this.#placeholderObserver = ProgressiveImg.observeElementVisibility(
+      this.#placeholderObserver,
+      this.#placeholderImage,
       this.getAttribute('placeholder-intersection-margin') || '800px',
       this.loadPlaceholder.bind(this),
     );
@@ -116,16 +129,16 @@ class ProgressiveImg extends HTMLElement {
 
   reset() {
     const alt = this.getAttribute('alt');
-    setOrRemoveAttribute(this.placeholder, 'alt', alt);
-    setOrRemoveAttribute(this.final, 'alt', alt);
+    setOrRemoveAttribute(this.#placeholderImage, 'alt', alt);
+    setOrRemoveAttribute(this.#finalImage, 'alt', alt);
 
-    setOrRemoveAttribute(this.final, 'sizes', this.getAttribute('sizes'));
+    setOrRemoveAttribute(this.#finalImage, 'sizes', this.getAttribute('sizes'));
 
-    this.placeholder.setAttribute('fetchpriority', this.getAttribute('placeholder-fetchpriority') || 'high');
-    this.final.setAttribute('fetchpriority', this.getAttribute('final-fetchpriority') || 'low');
+    this.#placeholderImage.setAttribute('fetchpriority', this.getAttribute('placeholder-fetchpriority') || 'high');
+    this.#finalImage.setAttribute('fetchpriority', this.getAttribute('final-fetchpriority') || 'low');
 
-    this.placeholder.removeAttribute('failed');
-    this.container.removeAttribute('loaded');
+    this.#placeholderImage.removeAttribute('failed');
+    this.#container.removeAttribute('loaded');
 
     this.loadImages();
   }
@@ -136,31 +149,28 @@ class ProgressiveImg extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.container = this.shadowRoot.querySelector('.container');
-    this.container.addEventListener('click', this.loadLarge.bind(this));
+    this.#container = this.shadowRoot.querySelector('.container');
+    this.#container.addEventListener('click', this.loadLarge.bind(this));
 
-    this.placeholder = this.shadowRoot.querySelector('.placeholder');
-    this.placeholder.addEventListener('error', this.onPlaceholderError.bind(this));
+    this.#placeholderImage = this.shadowRoot.querySelector('.placeholder');
+    this.#placeholderImage.addEventListener('error', this.onPlaceholderError.bind(this));
 
-    this.final = this.shadowRoot.querySelector('.final');
-    this.final.addEventListener('error', this.onError.bind(this));
-    this.final.addEventListener('load', this.finalLoaded.bind(this));
+    this.#finalImage = this.shadowRoot.querySelector('.final');
+    this.#finalImage.addEventListener('error', this.onError.bind(this));
+    this.#finalImage.addEventListener('load', this.finalLoaded.bind(this));
   }
 
   connectedCallback() {
-    // eslint-disable-next-line no-underscore-dangle
-    this._initialized = true;
+    this.#initialized = true;
     this.reset();
   }
 
   disconnectedCallback() {
-    // eslint-disable-next-line no-underscore-dangle
-    this._initialized = false;
+    this.#initialized = false;
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    // eslint-disable-next-line no-underscore-dangle
-    if (oldValue !== newValue && this._initialized) {
+    if (oldValue !== newValue && this.#initialized) {
       this.reset();
     }
   }

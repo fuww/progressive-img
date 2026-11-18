@@ -2,6 +2,8 @@
   :host {
     display: block;
     --placeholder-filter: blur(10px) saturate(1.2);
+    --transition-duration: .25s;
+    --transition-timing-function: ease-out;
     --img-object-fit: contain;
     --img-object-position: 50% 50%;
     --img-height: auto;
@@ -24,23 +26,8 @@
     max-height: var(--img-max-height);
   }
 
-  @keyframes breathe {
-    0% {
-      filter: blur(10px) saturate(1.2);
-    }
-
-    50% {
-      filter: blur(20px) saturate(2.4);
-    }
-
-    100% {
-      filter: blur(10px) saturate(1.2);
-    }
-  }
-
   img.placeholder:not([failed]) {
     filter: var(--placeholder-filter);
-    animation: breathe 2s infinite;
   }
 
   [loaded] .placeholder {
@@ -57,9 +44,26 @@
     bottom: 0;
   }
 
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  [fading] .final {
+    display: block;
+    animation: fade-in var(--transition-duration) var(--transition-timing-function);
+  }
+
   [loaded] .final {
     position: static;
     display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [fading] .final {
+      animation: none;
+    }
   }
 
 </style>

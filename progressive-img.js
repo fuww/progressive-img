@@ -45,7 +45,29 @@ class ProgressiveImg extends HTMLElement {
     ];
   }
 
+  fadesIn() {
+    return (this.getAttribute('load-strategy') || 'on-visible') === 'on-visible'
+      && this.getAttribute('final-fetchpriority') !== 'high';
+  }
+
   finalLoaded() {
+    if (this.fadesIn()) {
+      this.#container.setAttribute('fading', true);
+      if (this.#finalImage.getAnimations().length > 0) {
+        return;
+      }
+    }
+    this.showFinal();
+  }
+
+  finalFaded() {
+    if (this.#container.hasAttribute('fading')) {
+      this.showFinal();
+    }
+  }
+
+  showFinal() {
+    this.#container.removeAttribute('fading');
     this.#container.setAttribute('loaded', true);
   }
 
@@ -138,6 +160,7 @@ class ProgressiveImg extends HTMLElement {
     this.#finalImage.setAttribute('fetchpriority', this.getAttribute('final-fetchpriority') || 'low');
 
     this.#placeholderImage.removeAttribute('failed');
+    this.#container.removeAttribute('fading');
     this.#container.removeAttribute('loaded');
 
     this.loadImages();
@@ -158,6 +181,8 @@ class ProgressiveImg extends HTMLElement {
     this.#finalImage = this.shadowRoot.querySelector('.final');
     this.#finalImage.addEventListener('error', this.onError.bind(this));
     this.#finalImage.addEventListener('load', this.finalLoaded.bind(this));
+    this.#finalImage.addEventListener('animationend', this.finalFaded.bind(this));
+    this.#finalImage.addEventListener('animationcancel', this.finalFaded.bind(this));
   }
 
   connectedCallback() {

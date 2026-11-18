@@ -104,7 +104,13 @@ progressive-img uses 4 CSS custom properties to customize the appearance.
 | --------------- | ----------- |
 | --placeholder-filter  | Filter applied to placeholder image. Defaults to `blur(10px) saturate(1.2)` |
 | --placeholder-scale   | Transform scale value. Defaults to `1.1` to prevent blurred placeholder from having white borders |
-| --transition-duration | Duration of swapping placeholder and final image. Defaults to `.2s`  |
-| --transition-timing-function | Timing function of swapping placeholder and final image. Defaults to `ease-in` |
+| --transition-duration | Duration of the final image fading in over the placeholder. Defaults to `.25s`  |
+| --transition-timing-function | Timing function of the final image fading in. Defaults to `ease-out` |
+
+The final image fades in only with `load-strategy="on-visible"` (the default)
+and without `final-fetchpriority="high"`. Other images, such as the page's
+largest image, replace the placeholder instantly, so the fade never delays
+Largest Contentful Paint. With `prefers-reduced-motion: reduce`, every image
+replaces its placeholder instantly.
 
 You can find examples of this in [demo page](demo/index.html)
